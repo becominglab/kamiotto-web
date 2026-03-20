@@ -33,7 +33,7 @@ export default function OnboardingPage() {
 
   function goNext() {
     if (isLast) {
-      router.push("/home");
+      router.push("/app/home");
       return;
     }
     setDirection("exit");
@@ -44,7 +44,7 @@ export default function OnboardingPage() {
   }
 
   function skip() {
-    router.push("/home");
+    router.push("/app/home");
   }
 
   return (

@@ -13,7 +13,7 @@ export default function SplashPage() {
       setTimeout(() => setPhase("logo"), 800),
       setTimeout(() => setPhase("copy"), 1800),
       setTimeout(() => setPhase("fade"), 3400),
-      setTimeout(() => router.push("/onboarding"), 4200),
+      setTimeout(() => router.push("/app/onboarding"), 4200),
     ];
     return () => timers.forEach(clearTimeout);
   }, [router]);

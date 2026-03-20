@@ -99,7 +99,7 @@ export default function KamiottoTopPage() {
 
           <div className="mt-16 ko-animate-fadeUp ko-delay-4 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/splash"
+              href="/app/splash"
               className="px-10 py-4 rounded-2xl text-center transition-all duration-200"
               style={{
                 backgroundColor: "var(--ko-orange)",
@@ -290,7 +290,7 @@ export default function KamiottoTopPage() {
             自分を取り戻すところから。
           </p>
           <Link
-            href="/splash"
+            href="/app/splash"
             className="inline-block px-12 py-4 rounded-2xl transition-all duration-200"
             style={{
               backgroundColor: "var(--ko-orange)",
