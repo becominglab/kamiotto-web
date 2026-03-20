@@ -2,26 +2,21 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import KamiottoLogo from "@/components/kamiotto/KamiottoLogo";
 
-const principles = [
+const pillars = [
   {
     num: "01",
-    title: "在り方が、空気を変える",
-    desc: "テクニックではなく、自分の内面を整えることで、家庭の空気は変わります。",
+    title: "幸せは家庭から",
+    desc: "すべての幸福の源泉は家庭にある。夫婦の関係性が整うとき、家庭が、社会が、世界が変わる。",
   },
   {
     num: "02",
-    title: "完璧を目指さない",
-    desc: "完璧な夫になるのではなく、在り方を育て続けること。未完成であることが、伸びしろです。",
+    title: "インサイドアウト",
+    desc: "外側の世界は内側の反映。パートナーを変えようとするのではなく、まず自分が変わる。",
   },
   {
     num: "03",
-    title: "家庭は世界の最小単位",
-    desc: "仕事も健康も子育ても、家庭の安心感から生まれます。最も影響力の大きい場を整える。",
-  },
-  {
-    num: "04",
-    title: "戻ってくればいい",
-    desc: "できなかった日があっても、またここに戻ってくればいい。更新を重ねる人生を。",
+    title: "愛から生きる",
+    desc: "不安や義務ではなく、愛と感謝を源泉として生きること。それが神夫の根本にある思想。",
   },
 ];
 
@@ -29,12 +24,12 @@ const flows = [
   {
     step: "朝",
     title: "今日の問いに触れる",
-    desc: "静かな問いかけが、今日の在り方を整えるきっかけになります。",
+    desc: "静かな問いかけが、自分の内側を整えるきっかけになります。",
   },
   {
     step: "日中",
     title: "小さなプラクティス",
-    desc: "日常の中で実践できる、穏やかな行動の指針。",
+    desc: "日常の中で実践できる、愛と感謝の行動の指針。",
   },
   {
     step: "夜",
@@ -82,7 +77,7 @@ export default function KamiottoTopPage() {
               lineHeight: 1.4,
             }}
           >
-            KAMIOTTO
+            神夫養成研究所
           </h1>
 
           <p
@@ -94,7 +89,7 @@ export default function KamiottoTopPage() {
               lineHeight: 2,
             }}
           >
-            相手を変える前に、自分を整える。
+            あなたが整い、家族が笑う
           </p>
 
           <div className="mt-16 ko-animate-fadeUp ko-delay-4 flex flex-col sm:flex-row gap-4 justify-center">
@@ -120,7 +115,7 @@ export default function KamiottoTopPage() {
                 letterSpacing: "0.1em",
               }}
             >
-              KAMIOTTOとは
+              神夫とは
             </Link>
           </div>
 
@@ -155,39 +150,39 @@ export default function KamiottoTopPage() {
               letterSpacing: "0.06em",
             }}
           >
-            これは、夫婦関係を改善する
+            神夫とは、
             <br />
-            テクニックアプリではありません。
+            完璧な夫のことではありません。
           </h2>
           <p style={{ color: "var(--ko-ink-light)", fontSize: 14, lineHeight: 2.2, letterSpacing: "0.03em" }}>
-            自分自身の在り方を整え、
-            <br />
-            家庭の空気を変えていくためのアプリです。
+            神夫とは、自分の内側から愛を生きる人。
             <br />
             <br />
-            完璧な夫になるのではなく、
+            自分自身を整え、自分の人生を生きる。
             <br />
-            在り方を育てる。
+            その在り方が、自然とパートナーを尊重し、
+            <br />
+            家族を照らし、周囲を幸せにしていく。
             <br />
             <br />
-            できなかった日があっても、
+            まるで太陽のように家庭を照らす存在。
             <br />
-            戻ってくればいい。
+            それが神夫です。
           </p>
         </div>
       </section>
 
-      {/* ── Principles ── */}
+      {/* ── Three Pillars ── */}
       <section className="py-28" style={{ backgroundColor: "var(--ko-bg)" }}>
         <div className="max-w-2xl mx-auto px-6">
           <p
             className="text-center mb-16"
             style={{ color: "var(--ko-orange-light)", fontSize: 11, letterSpacing: "0.2em", fontWeight: 500 }}
           >
-            PRINCIPLES
+            THREE PILLARS
           </p>
           <div className="space-y-6">
-            {principles.map((item) => (
+            {pillars.map((item) => (
               <div
                 key={item.num}
                 className="rounded-2xl p-7"
@@ -285,9 +280,9 @@ export default function KamiottoTopPage() {
               letterSpacing: "0.06em",
             }}
           >
-            少し肩の力を抜いて、
+            内側が変われば、
             <br />
-            自分を取り戻すところから。
+            世界が変わる。
           </p>
           <Link
             href="/app/splash"
@@ -299,7 +294,7 @@ export default function KamiottoTopPage() {
               letterSpacing: "0.1em",
             }}
           >
-            KAMIOTTOをはじめる
+            神夫の実践をはじめる
           </Link>
           <p
             className="mt-8"
@@ -312,7 +307,7 @@ export default function KamiottoTopPage() {
               lineHeight: 2,
             }}
           >
-            更新を重ねる人生を。
+            幸せで、豊かで、ご機嫌に生きること。
           </p>
         </div>
       </section>

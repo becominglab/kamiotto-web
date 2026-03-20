@@ -26,25 +26,25 @@ function getFormattedDate(): string {
   return `${month}月${day}日（${weekday}）`;
 }
 
-const todayQuestion = "今朝、家を出る前にパートナーの顔を見ましたか？";
+const todayQuestion = "今日、パートナーに感謝を伝えましたか？";
 
 const practices = [
   {
     id: 1,
-    title: "朝の3分リフレクション",
-    description: "今日、家庭で大切にしたいことを一つ決める",
+    title: "朝の内側を整える時間",
+    description: "今日、愛と感謝を源泉にして生きると決める",
     duration: "3分",
   },
   {
     id: 2,
-    title: "感謝のひとこと",
-    description: "パートナーに、今日ひとつ感謝を伝える",
+    title: "インサイドアウトの実践",
+    description: "パートナーを変えようとせず、まず自分の在り方を整える",
     duration: "1分",
   },
   {
     id: 3,
-    title: "夜の振り返り",
-    description: "今日の在り方を静かにふりかえる",
+    title: "夜の静かなふりかえり",
+    description: "今日の自分を受け止め、愛から生きられたかをふりかえる",
     duration: "5分",
   },
 ];
@@ -84,7 +84,7 @@ export default function KamiottoHomePage() {
             {getGreeting()}
           </h1>
           <p className="mt-3" style={{ color: "var(--ko-ink-light)", fontSize: 13, lineHeight: 1.9, letterSpacing: "0.03em" }}>
-            今日も、自分を整える一日にしましょう。
+            今日も、内側から愛を生きる一日にしましょう。
           </p>
         </section>
 
@@ -198,7 +198,7 @@ export default function KamiottoHomePage() {
                 lineHeight: 1.8,
               }}
             >
-              今週の在り方を、静かにふりかえる
+              今週、愛から生きられた瞬間をふりかえる
             </p>
             <button
               className="mt-4 px-6 py-2.5 rounded-xl transition-colors duration-200"
@@ -227,7 +227,7 @@ export default function KamiottoHomePage() {
                 lineHeight: 2,
               }}
             >
-              家庭は、世界の最小単位。
+              幸せは家庭から。
             </p>
           </div>
         </section>

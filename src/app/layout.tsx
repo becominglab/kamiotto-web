@@ -3,11 +3,11 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "KAMIOTTO | 相手を変える前に、自分を整える。",
-    template: "%s | KAMIOTTO",
+    default: "神夫養成研究所 | あなたが整い、家族が笑う",
+    template: "%s | 神夫養成研究所",
   },
   description:
-    "自分自身の在り方を整え、家庭の空気を変えていくためのアプリ。完璧な夫になるのではなく、在り方を育てる。",
+    "幸せは家庭から。自分の内側を整え、愛と感謝をもってパートナーと向き合う。神夫養成研究所の実践アプリ。",
 };
 
 export default function RootLayout({

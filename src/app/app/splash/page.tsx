@@ -74,7 +74,7 @@ export default function SplashPage() {
             transform: phase === "copy" || phase === "fade" ? "translateY(0)" : "translateY(6px)",
           }}
         >
-          相手を変える前に、自分を整える。
+          あなたが整い、家族が笑う
         </p>
       </div>
     </div>
