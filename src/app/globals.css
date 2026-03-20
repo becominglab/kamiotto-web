@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  /* KAMIOTTO Brand Palette — based on kamiotto.jp */
+  --ko-bg: #FAFAFA;
+  --ko-bg-warm: #FEF0E4;
+  --ko-orange: #F07820;
+  --ko-orange-light: #F5A050;
+  --ko-orange-deep: #D45E0A;
+  --ko-orange-pale: #FEF0E4;
+  --ko-ink: #1A1A1A;
+  --ko-ink-light: #888888;
+  --ko-white: #FFFFFF;
+  --ko-border: #EEEEEE;
+  --ko-grey-mid: #CCCCCC;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  font-feature-settings: "palt";
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background-color: #F07820;
+  color: white;
+}
+
+/* ── KAMIOTTO Animations ── */
+@keyframes ko-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.04); opacity: 0.9; }
+}
+
+@keyframes ko-ripple {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes ko-fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ko-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ko-animate-breathe {
+  animation: ko-breathe 6s ease-in-out infinite;
+}
+
+.ko-animate-ripple {
+  animation: ko-ripple 4s ease-out infinite;
+}
+
+.ko-animate-fadeUp {
+  animation: ko-fadeUp 0.8s ease-out both;
+}
+
+.ko-animate-fadeIn {
+  animation: ko-fadeIn 1s ease-out both;
+}
+
+.ko-delay-1 { animation-delay: 0.2s; }
+.ko-delay-2 { animation-delay: 0.4s; }
+.ko-delay-3 { animation-delay: 0.6s; }
+.ko-delay-4 { animation-delay: 0.8s; }
+.ko-delay-5 { animation-delay: 1.0s; }
+.ko-delay-6 { animation-delay: 1.2s; }
