@@ -1,101 +1,23 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import KamiottoLogo from "@/components/kamiotto/KamiottoLogo";
+import BottomNav from "@/components/kamiotto/BottomNav";
+import { Settings, User, ChevronRight, Check } from "lucide-react";
+import { practices } from "@/lib/practices";
 import {
-  BookOpen,
-  MessageCircle,
-  Settings,
-  User,
-  ChevronRight,
-  Check,
-} from "lucide-react";
-
-/* ── helpers ── */
-
-function getGreeting(): string {
-  const hour = new Date().getHours();
-  if (hour < 10) return "おはようございます。";
-  if (hour < 17) return "こんにちは。";
-  return "おつかれさまです。";
-}
-
-function getFormattedDate(): string {
-  const now = new Date();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
-  const weekday = weekdays[now.getDay()];
-  return `${month}月${day}日（${weekday}）`;
-}
-
-function getTodayKey(): string {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
-}
-
-/* ── types ── */
-
-interface ReflectionEntry {
-  date: string;
-  question: string;
-  text: string;
-  timestamp: number;
-}
-
-/* ── data ── */
+  getGreeting,
+  getFormattedDate,
+  getTodayKey,
+  saveReflection,
+  getTodayReflection,
+  getRecentReflections,
+  getTodayPracticeIds,
+} from "@/lib/storage";
+import type { ReflectionEntry } from "@/lib/storage";
 
 const todayQuestion = "今日、パートナーに感謝を伝えましたか？";
-
-const practices = [
-  {
-    id: 1,
-    title: "朝の内側を整える時間",
-    description: "今日、愛と感謝を源泉にして生きると決める",
-    duration: "3分",
-  },
-  {
-    id: 2,
-    title: "インサイドアウトの実践",
-    description: "パートナーを変えようとせず、まず自分の在り方を整える",
-    duration: "1分",
-  },
-  {
-    id: 3,
-    title: "夜の静かなふりかえり",
-    description: "今日の自分を受け止め、愛から生きられたかをふりかえる",
-    duration: "5分",
-  },
-];
-
-/* ── storage helpers ── */
-
-function loadReflections(): ReflectionEntry[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = localStorage.getItem("kamiotto_reflections");
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveReflection(entry: ReflectionEntry) {
-  const all = loadReflections();
-  all.unshift(entry);
-  localStorage.setItem("kamiotto_reflections", JSON.stringify(all));
-}
-
-function getTodayReflection(): ReflectionEntry | undefined {
-  const today = getTodayKey();
-  return loadReflections().find((r) => r.date === today);
-}
-
-function getRecentReflections(limit: number): ReflectionEntry[] {
-  return loadReflections().slice(0, limit);
-}
-
-/* ── component ── */
 
 export default function KamiottoHomePage() {
   const [reflectionOpen, setReflectionOpen] = useState(false);
@@ -104,6 +26,7 @@ export default function KamiottoHomePage() {
   const [todayEntry, setTodayEntry] = useState<ReflectionEntry | undefined>(undefined);
   const [recentEntries, setRecentEntries] = useState<ReflectionEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [donePracticeIds, setDonePracticeIds] = useState<number[]>([]);
 
   useEffect(() => {
     const existing = getTodayReflection();
@@ -112,6 +35,7 @@ export default function KamiottoHomePage() {
       setSaved(true);
     }
     setRecentEntries(getRecentReflections(7));
+    setDonePracticeIds(getTodayPracticeIds());
   }, []);
 
   const handleSave = useCallback(() => {
@@ -133,9 +57,9 @@ export default function KamiottoHomePage() {
       <header className="flex items-center justify-between px-6 pt-8 pb-6" style={{ backgroundColor: "var(--ko-bg)" }}>
         <KamiottoLogo size={32} showWordmark={false} color="var(--ko-orange)" />
         <div className="flex items-center gap-4">
-          <button aria-label="マイページ">
+          <Link href="/app/mypage" aria-label="マイページ">
             <User size={20} strokeWidth={1.5} style={{ color: "var(--ko-ink-light)" }} />
-          </button>
+          </Link>
           <button aria-label="設定">
             <Settings size={20} strokeWidth={1.5} style={{ color: "var(--ko-ink-light)" }} />
           </button>
@@ -183,51 +107,21 @@ export default function KamiottoHomePage() {
             </p>
 
             {saved && todayEntry ? (
-              /* ── 記録済み表示 ── */
               <div className="mt-5 ko-animate-fadeUp">
-                <div
-                  className="flex items-center gap-2 mb-3"
-                  style={{ color: "var(--ko-orange)" }}
-                >
+                <div className="flex items-center gap-2 mb-3" style={{ color: "var(--ko-orange)" }}>
                   <Check size={16} strokeWidth={2} />
-                  <span style={{ fontSize: 12, letterSpacing: "0.08em", fontWeight: 500 }}>
-                    記録しました
-                  </span>
+                  <span style={{ fontSize: 12, letterSpacing: "0.08em", fontWeight: 500 }}>記録しました</span>
                 </div>
-                <div
-                  className="rounded-xl p-4"
-                  style={{
-                    backgroundColor: "var(--ko-bg)",
-                    border: "1px solid var(--ko-border)",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: "var(--ko-ink)",
-                      fontSize: 14,
-                      lineHeight: 1.9,
-                      fontFamily: '"Noto Sans JP", sans-serif',
-                      whiteSpace: "pre-wrap",
-                    }}
-                  >
+                <div className="rounded-xl p-4" style={{ backgroundColor: "var(--ko-bg)", border: "1px solid var(--ko-border)" }}>
+                  <p style={{ color: "var(--ko-ink)", fontSize: 14, lineHeight: 1.9, whiteSpace: "pre-wrap" }}>
                     {todayEntry.text}
                   </p>
                 </div>
-                <p
-                  className="mt-3 text-center"
-                  style={{
-                    color: "var(--ko-ink-light)",
-                    fontSize: 12,
-                    lineHeight: 1.8,
-                    fontFamily: '"Noto Serif JP", serif',
-                    fontWeight: 300,
-                  }}
-                >
+                <p className="mt-3 text-center" style={{ color: "var(--ko-ink-light)", fontSize: 12, lineHeight: 1.8, fontFamily: '"Noto Serif JP", serif', fontWeight: 300 }}>
                   今日も自分と向き合えましたね。
                 </p>
               </div>
             ) : !reflectionOpen ? (
-              /* ── 未記録：ふりかえるボタン ── */
               <button
                 onClick={() => setReflectionOpen(true)}
                 className="mt-5 w-full py-3 rounded-xl text-center transition-colors duration-200"
@@ -236,7 +130,6 @@ export default function KamiottoHomePage() {
                 ふりかえる
               </button>
             ) : (
-              /* ── 入力中 ── */
               <div className="mt-5 ko-animate-fadeUp">
                 <textarea
                   value={reflectionText}
@@ -250,7 +143,6 @@ export default function KamiottoHomePage() {
                     color: "var(--ko-ink)",
                     fontSize: 14,
                     lineHeight: 1.9,
-                    fontFamily: '"Noto Sans JP", sans-serif',
                   }}
                   autoFocus
                 />
@@ -288,41 +180,48 @@ export default function KamiottoHomePage() {
             今日のプラクティス
           </h2>
           <div className="space-y-3">
-            {practices.map((p) => (
-              <div
-                key={p.id}
-                className="rounded-2xl p-5 flex items-center justify-between cursor-pointer transition-colors duration-200 hover:bg-white"
-                style={{ backgroundColor: "var(--ko-white)", border: "1px solid var(--ko-border)" }}
-              >
-                <div className="flex-1 min-w-0">
-                  <p style={{ color: "var(--ko-orange)", fontSize: 15, fontWeight: 500, letterSpacing: "0.03em" }}>
-                    {p.title}
-                  </p>
-                  <p className="mt-1" style={{ color: "var(--ko-ink-light)", fontSize: 12, lineHeight: 1.6 }}>
-                    {p.description}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 ml-4 shrink-0">
-                  <span
-                    className="rounded-full px-2.5 py-1"
-                    style={{ backgroundColor: "var(--ko-bg-warm)", color: "var(--ko-ink-light)", fontSize: 11 }}
-                  >
-                    {p.duration}
-                  </span>
-                  <ChevronRight size={16} strokeWidth={1.5} style={{ color: "var(--ko-orange-light)" }} />
-                </div>
-              </div>
-            ))}
+            {practices.map((p) => {
+              const done = donePracticeIds.includes(p.id);
+              return (
+                <Link
+                  key={p.id}
+                  href={`/app/practice/${p.id}`}
+                  className="rounded-2xl p-5 flex items-center justify-between transition-colors duration-200 hover:bg-white block"
+                  style={{
+                    backgroundColor: done ? "var(--ko-bg-warm)" : "var(--ko-white)",
+                    border: "1px solid var(--ko-border)",
+                  }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p style={{ color: "var(--ko-orange)", fontSize: 15, fontWeight: 500, letterSpacing: "0.03em" }}>
+                        {p.title}
+                      </p>
+                      {done && <Check size={14} strokeWidth={2} style={{ color: "var(--ko-orange)" }} />}
+                    </div>
+                    <p className="mt-1" style={{ color: "var(--ko-ink-light)", fontSize: 12, lineHeight: 1.6 }}>
+                      {p.description}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 ml-4 shrink-0">
+                    <span
+                      className="rounded-full px-2.5 py-1"
+                      style={{ backgroundColor: done ? "var(--ko-white)" : "var(--ko-bg-warm)", color: "var(--ko-ink-light)", fontSize: 11 }}
+                    >
+                      {p.duration}
+                    </span>
+                    <ChevronRight size={16} strokeWidth={1.5} style={{ color: "var(--ko-orange-light)" }} />
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
         {/* ── 過去のふりかえり ── */}
         {recentEntries.length > 0 && (
           <section className="ko-animate-fadeUp ko-delay-3">
-            <button
-              onClick={() => setShowHistory(!showHistory)}
-              className="w-full flex items-center justify-between mb-4"
-            >
+            <button onClick={() => setShowHistory(!showHistory)} className="w-full flex items-center justify-between mb-4">
               <h2
                 style={{
                   color: "var(--ko-orange)",
@@ -347,49 +246,27 @@ export default function KamiottoHomePage() {
 
             {showHistory && (
               <div className="space-y-3 ko-animate-fadeUp">
-                {recentEntries.map((entry, i) => (
+                {recentEntries.map((entry) => (
                   <div
                     key={entry.timestamp}
                     className="rounded-2xl p-5"
                     style={{
-                      backgroundColor: i === 0 && entry.date === getTodayKey() ? "var(--ko-bg-warm)" : "var(--ko-white)",
+                      backgroundColor: entry.date === getTodayKey() ? "var(--ko-bg-warm)" : "var(--ko-white)",
                       border: "1px solid var(--ko-border)",
                     }}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <p style={{ color: "var(--ko-ink-light)", fontSize: 11, letterSpacing: "0.1em" }}>
-                        {entry.date}
-                      </p>
+                      <p style={{ color: "var(--ko-ink-light)", fontSize: 11, letterSpacing: "0.1em" }}>{entry.date}</p>
                       {entry.date === getTodayKey() && (
-                        <span
-                          className="rounded-full px-2 py-0.5"
-                          style={{ backgroundColor: "var(--ko-orange)", color: "var(--ko-white)", fontSize: 10, letterSpacing: "0.05em" }}
-                        >
+                        <span className="rounded-full px-2 py-0.5" style={{ backgroundColor: "var(--ko-orange)", color: "var(--ko-white)", fontSize: 10 }}>
                           今日
                         </span>
                       )}
                     </div>
-                    <p
-                      className="mb-2"
-                      style={{
-                        color: "var(--ko-orange-light)",
-                        fontSize: 12,
-                        fontFamily: '"Noto Serif JP", serif',
-                        lineHeight: 1.6,
-                      }}
-                    >
+                    <p className="mb-2" style={{ color: "var(--ko-orange-light)", fontSize: 12, fontFamily: '"Noto Serif JP", serif', lineHeight: 1.6 }}>
                       {entry.question}
                     </p>
-                    <p
-                      style={{
-                        color: "var(--ko-ink)",
-                        fontSize: 13,
-                        lineHeight: 1.9,
-                        whiteSpace: "pre-wrap",
-                      }}
-                    >
-                      {entry.text}
-                    </p>
+                    <p style={{ color: "var(--ko-ink)", fontSize: 13, lineHeight: 1.9, whiteSpace: "pre-wrap" }}>{entry.text}</p>
                   </div>
                 ))}
               </div>
@@ -415,8 +292,9 @@ export default function KamiottoHomePage() {
             >
               今週、愛から生きられた瞬間をふりかえる
             </p>
-            <button
-              className="mt-4 px-6 py-2.5 rounded-xl transition-colors duration-200"
+            <Link
+              href="/app/weekly"
+              className="mt-4 inline-block px-6 py-2.5 rounded-xl transition-colors duration-200"
               style={{
                 backgroundColor: "var(--ko-white)",
                 color: "var(--ko-orange)",
@@ -426,7 +304,7 @@ export default function KamiottoHomePage() {
               }}
             >
               ふりかえりを開く
-            </button>
+            </Link>
           </div>
         </section>
 
@@ -449,36 +327,7 @@ export default function KamiottoHomePage() {
         </section>
       </div>
 
-      {/* ── Bottom Navigation ── */}
-      <nav
-        className="fixed bottom-0 left-0 right-0 flex items-center justify-around py-4 border-t"
-        style={{ backgroundColor: "var(--ko-white)", borderColor: "var(--ko-border)" }}
-      >
-        {[
-          { icon: <HomeIcon />, label: "ホーム", active: true },
-          { icon: <BookOpen size={20} strokeWidth={1.3} />, label: "学び", active: false },
-          { icon: <MessageCircle size={20} strokeWidth={1.3} />, label: "対話", active: false },
-          { icon: <User size={20} strokeWidth={1.3} />, label: "マイページ", active: false },
-        ].map((item) => (
-          <button
-            key={item.label}
-            className="flex flex-col items-center gap-1"
-            style={{ color: item.active ? "var(--ko-orange)" : "var(--ko-orange-light)" }}
-          >
-            {item.icon}
-            <span style={{ fontSize: 10, letterSpacing: "0.05em" }}>{item.label}</span>
-          </button>
-        ))}
-      </nav>
+      <BottomNav active="home" />
     </div>
-  );
-}
-
-function HomeIcon() {
-  return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.3} strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
   );
 }
