@@ -70,6 +70,13 @@ a.card:hover { border-color: var(--orange); }
 .profile .name { font-family: var(--serif); font-size: 1.3rem; margin: 0; }
 .profile .name span { display: block; font-family: var(--sans); font-size: .8rem; color: var(--soft); letter-spacing: .1em; }
 
+.with-photo { display: grid; gap: 24px; align-items: center; }
+.with-photo img { width: 100%; max-width: 320px; height: auto; margin: 0 auto; border-radius: 18px; display: block; box-shadow: 0 12px 30px rgba(120, 70, 30, .16); }
+.with-photo.book img { max-width: 240px; border-radius: 6px; }
+@media (min-width: 720px) { .with-photo { grid-template-columns: 300px 1fr; gap: 40px; } .with-photo.book { grid-template-columns: 240px 1fr; } }
+figure.photo { margin: 0 0 2em; text-align: center; }
+figure.photo img { width: 100%; max-width: 360px; height: auto; border-radius: 18px; box-shadow: 0 12px 30px rgba(120, 70, 30, .16); }
+
 /* 固定ページ・記事 */
 .page { max-width: 720px; margin: 0 auto; padding: 48px 20px 72px; }
 .eyebrow { font-size: .78rem; letter-spacing: .18em; color: var(--orange); margin: 0 0 .8em; }
@@ -89,7 +96,10 @@ a.card:hover { border-color: var(--orange); }
 .faq summary { cursor: pointer; font-family: var(--serif); font-weight: 600; }
 .faq details p { margin: .8em 0 0; color: var(--soft); }
 .next-step { text-align: center; background: var(--pale); border-radius: 18px; padding: 28px 20px; margin: 3em 0 2em; }
-.author { border-top: 1px solid var(--line); padding-top: 20px; font-size: .9rem; color: var(--soft); }
+.author { display: flex; gap: 18px; align-items: flex-start; border-top: 1px solid var(--line); padding-top: 24px; font-size: .9rem; color: var(--soft); }
+.author img { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; flex: none; }
+.author-label { font-size: .74rem; letter-spacing: .14em; color: var(--orange); }
+.author-name a { color: var(--ink); text-decoration: none; }
 .author-name { font-family: var(--serif); color: var(--ink); font-size: 1.05rem; margin: 0; }
 .author-name span { font-family: var(--sans); font-size: .78rem; margin-left: 1em; color: var(--soft); }
 .author p { margin: .3em 0; }
