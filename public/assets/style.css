@@ -109,6 +109,10 @@ mark.todo { background: #fff3a6; color: #6b4a00; padding: 0 .3em; border-radius:
 .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 1em; }
 .cat-nav a { font-size: .84rem; text-decoration: none; border: 1px solid var(--orange); border-radius: 999px; padding: 4px 14px; background: #fff; }
 
+.related { margin: 3em 0 0; }
+.related h2 { border: 0; font-size: 1.15rem; margin: 0 0 1em; }
+.related-more { font-size: .9rem; margin-top: 1.2em; }
+
 /* フッター */
 .site-footer { background: var(--ink); color: #f6ebe1; text-align: center; padding: 56px 20px 32px; font-size: .9rem; }
 .footer-cta { max-width: 560px; margin: 0 auto 36px; }
